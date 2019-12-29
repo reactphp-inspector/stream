@@ -1,7 +1,7 @@
 {
-    "name": "wyrihaximus/react-inspector-stream",
+    "name": "react-inspector/stream",
     "license": "MIT",
-    "description": "React Stream throughput inspector",
+    "description": "\uD83C\uDF0A React Stream throughput inspector",
     "authors": [
         {
             "name": "Cees-Jan Kiewiet",
@@ -9,19 +9,20 @@
         }
     ],
     "require": {
-        "php": "^7.2",
+        "php": "^7.3",
+        "react-inspector/metric": "dev-master",
+        "react-inspector/metrics": "dev-master",
         "react/event-loop": "^1.0 || ^0.5 || ^0.4.3",
         "react/stream": "^1.0 || ^0.7 || ^0.6",
-        "roave/better-reflection": "^3.1",
-        "wyrihaximus/iterator-or-array-to-array": "dev-master",
-        "wyrihaximus/react-inspector": "dev-master"
+        "roave/better-reflection": "^3.5",
+        "wyrihaximus/iterator-or-array-to-array": "^1.1"
     },
     "require-dev": {
-        "api-clients/test-utilities": "^5.1"
+        "wyrihaximus/async-test-utilities": "^1.1"
     },
     "autoload": {
         "psr-4": {
-            "WyriHaximus\\React\\Inspector\\Stream\\": "src/"
+            "ReactInspector\\Stream\\": "src/"
         },
         "files": [
             "src/bootstrap.php",
@@ -30,30 +31,13 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "WyriHaximus\\React\\Tests\\Inspector\\Stream\\": "tests/"
-        }
-    },
-    "suggest": {
-        "wyrihaximus/react-event-loop-inspector-f42-bunny": "Bunny bindings"
-    },
-    "extra": {
-        "react-inspector": {
-            "metrics": [
-                "eventloop.io.read",
-                "eventloop.io.write"
-            ],
-            "reset": {
-                "io": [
-                    "eventloop.io.read",
-                    "eventloop.io.write"
-                ]
-            }
+            "ReactInspector\\Tests\\Stream\\": "tests/"
         }
     },
     "config": {
         "sort-packages": true,
         "platform": {
-            "php": "7.2"
+            "php": "7.3"
         }
     },
     "scripts": {

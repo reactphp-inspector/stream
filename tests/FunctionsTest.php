@@ -1,48 +1,51 @@
 <?php declare(strict_types=1);
 
-namespace WyriHaximus\React\Tests\Inspector\Stream;
+namespace ReactInspector\Tests\Stream;
 
 use PHPUnit\Framework\TestCase;
 use React\Stream;
-use WyriHaximus\React\Inspector\GlobalState;
+use ReactInspector\Stream\Bridge;
 
+/**
+ * @internal
+ */
 final class FunctionsTest extends TestCase
 {
-    public function testFread()
+    public function testFread(): void
     {
-        GlobalState::clear();
-        $handle = fopen('php://memory', 'a+');
-        fwrite($handle, 'abc', 3);
-        self::assertSame([], GlobalState::get());
+        Bridge::clear();
+        $handle = \fopen('php://memory', 'a+');
+        \fwrite($handle, 'abc', 3);
+        self::assertSame(0.0, Bridge::get()['read']);
         Stream\fread($handle, 3);
-        self::assertSame(['eventloop.io.read' => 0.0], GlobalState::get());
-        rewind($handle);
+        self::assertSame(0.0, Bridge::get()['read']);
+        \rewind($handle);
         Stream\fread($handle, 3);
-        self::assertSame(['eventloop.io.read' => 3.0], GlobalState::get());
-        fclose($handle);
+        self::assertSame(3.0, Bridge::get()['read']);
+        \fclose($handle);
     }
 
-    public function testStreamGetContents()
+    public function testStreamGetContents(): void
     {
-        GlobalState::clear();
-        $handle = fopen('php://memory', 'a+');
-        fwrite($handle, 'abc', 3);
-        self::assertSame([], GlobalState::get());
+        Bridge::clear();
+        $handle = \fopen('php://memory', 'a+');
+        \fwrite($handle, 'abc', 3);
+        self::assertSame(0.0, Bridge::get()['read']);
         Stream\stream_get_contents($handle, 3);
-        self::assertSame(['eventloop.io.read' => 0.0], GlobalState::get());
-        rewind($handle);
+        self::assertSame(0.0, Bridge::get()['read']);
+        \rewind($handle);
         Stream\stream_get_contents($handle, 3);
-        self::assertSame(['eventloop.io.read' => 3.0], GlobalState::get());
-        fclose($handle);
+        self::assertSame(3.0, Bridge::get()['read']);
+        \fclose($handle);
     }
 
-    public function testFwrite()
+    public function testFwrite(): void
     {
-        GlobalState::clear();
-        $handle = fopen('php://memory', 'a+');
-        self::assertSame([], GlobalState::get());
+        Bridge::clear();
+        $handle = \fopen('php://memory', 'a+');
+        self::assertSame(0.0, Bridge::get()['write']);
         Stream\fwrite($handle, 'abc', 3);
-        self::assertSame(['eventloop.io.write' => 3.0], GlobalState::get());
-        fclose($handle);
+        self::assertSame(3.0, Bridge::get()['write']);
+        \fclose($handle);
     }
 }

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace WyriHaximus\React\Inspector\Stream;
+namespace ReactInspector\Stream;
 
 use PhpParser\Node;
 use Roave\BetterReflection\BetterReflection;
@@ -24,7 +24,7 @@ final class Monkey
 
     private static function reroute(ReflectionMethod $method, string $functionName): void
     {
-        if (strpos($method->getBodyCode(), $functionName) === false) {
+        if (\strpos($method->getBodyCode(), $functionName) === false) {
             return;
         }
 

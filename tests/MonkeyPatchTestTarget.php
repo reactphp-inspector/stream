@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace WyriHaximus\React\Tests\Inspector\Stream;
+namespace ReactInspector\Tests\Stream;
 
 final class MonkeyPatchTestTarget
 {
-    public function bitterbal()
+    public function bitterbal(): void
     {
-        fwrite(STDOUT, 'kroket');
-        fread(STDIN, 13);
-        stream_get_contents(STDIN);
+        \fwrite(\STDOUT, 'kroket');
+        \fread(\STDIN, 13);
+        \stream_get_contents(\STDIN);
     }
 }

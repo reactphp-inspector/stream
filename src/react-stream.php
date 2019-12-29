@@ -2,12 +2,12 @@
 
 namespace React\Stream;
 
-use WyriHaximus\React\Inspector\GlobalState;
+use ReactInspector\Stream\Bridge;
 
 function fread($handle, $length)
 {
     $data = \fread($handle, $length);
-    GlobalState::incr('eventloop.io.read', (float)strlen($data));
+    Bridge::incr('read', (float)\strlen($data));
 
     return $data;
 }
@@ -15,7 +15,7 @@ function fread($handle, $length)
 function fwrite($handle, $data, $length = null)
 {
     $writtenLength = \fwrite($handle, $data, $length);
-    GlobalState::incr('eventloop.io.write', (float)$writtenLength);
+    Bridge::incr('write', (float)$writtenLength);
 
     return $writtenLength;
 }
@@ -23,7 +23,7 @@ function fwrite($handle, $data, $length = null)
 function stream_get_contents($handle, $length)
 {
     $data = \stream_get_contents($handle, $length);
-    GlobalState::incr('eventloop.io.read', (float)strlen($data));
+    Bridge::incr('read', (float)\strlen($data));
 
     return $data;
 }
