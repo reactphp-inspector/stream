@@ -14,7 +14,11 @@ function fread($handle, $length)
 
 function fwrite($handle, $data, $length = null)
 {
-    $writtenLength = \fwrite($handle, $data, $length);
+    if ($length === null) {
+        $writtenLength = \fwrite($handle, $data);
+    } else {
+        $writtenLength = \fwrite($handle, $data, $length);
+    }
     Bridge::incr('write', (float)$writtenLength);
 
     return $writtenLength;
