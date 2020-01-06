@@ -18,7 +18,7 @@ final class IOCollector implements CollectorInterface
             new Metric(
                 new Config(
                     'reactphp_io',
-                    'gauge',
+                    'counter',
                     ''
                 ),
                 [
