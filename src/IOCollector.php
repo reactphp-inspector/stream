@@ -23,7 +23,7 @@ final class IOCollector implements CollectorInterface
                     'counter',
                     ''
                 ),
-                [
+                new Tags(
                     new Tag('reactphp_component', 'io'),
                 ),
                 new Measurements(
