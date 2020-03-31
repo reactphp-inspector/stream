@@ -2,11 +2,16 @@
 
 namespace ReactInspector\Stream;
 
+use function array_key_exists;
+use const WyriHaximus\Constants\Numeric\ONE_FLOAT;
+use const WyriHaximus\Constants\Numeric\ZERO_FLOAT;
+
 final class Bridge
 {
-    private static $state = [
-        'read' => 0.0,
-        'write' => 0.0,
+    /** @var array<string, float> */
+    private static array $state = [
+        'read' => ZERO_FLOAT,
+        'write' => ZERO_FLOAT,
     ];
 
     /**
@@ -15,19 +20,20 @@ final class Bridge
     public static function clear(): void
     {
         self::$state = [
-            'read' => 0.0,
-            'write' => 0.0,
+            'read' => ZERO_FLOAT,
+            'write' => ZERO_FLOAT,
         ];
     }
 
+    /** @return array<string, float> */
     public static function get(): array
     {
         return self::$state;
     }
 
-    public static function incr(string $key, float $value = 1): void
+    public static function incr(string $key, float $value = ONE_FLOAT): void
     {
-        if (!isset(self::$state[$key])) {
+        if (! array_key_exists($key, self::$state)) {
             return;
         }
 

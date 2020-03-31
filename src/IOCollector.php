@@ -2,22 +2,22 @@
 
 namespace ReactInspector\Stream;
 
-use ReactInspector\Config;
-use function ApiClients\Tools\Rx\observableFromArray;
 use ReactInspector\CollectorInterface;
+use ReactInspector\Config;
 use ReactInspector\Measurement;
 use ReactInspector\Measurements;
 use ReactInspector\Metric;
 use ReactInspector\Tag;
 use ReactInspector\Tags;
 use Rx\Observable;
+use function ApiClients\Tools\Rx\observableFromArray;
 
 final class IOCollector implements CollectorInterface
 {
     public function collect(): Observable
     {
         return observableFromArray([
-            new Metric(
+            Metric::create(
                 new Config(
                     'reactphp_io',
                     'counter',

@@ -6,7 +6,11 @@ use PhpParser\Node;
 use Roave\BetterReflection\BetterReflection;
 use Roave\BetterReflection\Reflection\ReflectionClass;
 use Roave\BetterReflection\Reflection\ReflectionMethod;
+use function method_exists;
+use function property_exists;
+use function strpos;
 use function WyriHaximus\iteratorOrArrayToArray;
+use const WyriHaximus\Constants\Boolean\FALSE_;
 
 final class Monkey
 {
@@ -24,13 +28,18 @@ final class Monkey
 
     private static function reroute(ReflectionMethod $method, string $functionName): void
     {
-        if (\strpos($method->getBodyCode(), $functionName) === false) {
+        if (strpos($method->getBodyCode(), $functionName) === FALSE_) {
             return;
         }
 
         $method->setBodyFromAst(iteratorOrArrayToArray(self::iterateAst($method->getBodyAst(), $functionName)));
     }
 
+    /**
+     * @param Node[] $ast
+     *
+     * @return iterable<string, Node>
+     */
     private static function iterateAst(iterable $ast, string $functionName): iterable
     {
         foreach ($ast as $key => $stmt) {
@@ -40,20 +49,25 @@ final class Monkey
 
     private static function checkStmt(Node $stmt, string $functionName): Node
     {
-        if (isset($stmt->stmts)) {
+        if (property_exists($stmt, 'stmts')) {
+            /** @psalm-suppress NoInterfaceProperties */
             $stmt->stmts = iteratorOrArrayToArray(self::iterateAst($stmt->stmts, $functionName));
         }
 
-        if (isset($stmt->expr)) {
+        /** @psalm-suppress NoInterfaceProperties */
+        if (property_exists($stmt, 'expr') && $stmt->expr instanceof Node) {
+            /** @psalm-suppress NoInterfaceProperties */
             $stmt->expr = self::checkStmt($stmt->expr, $functionName);
         }
 
-        if (isset($stmt->else) && $stmt->else instanceof Node) {
+        /** @psalm-suppress NoInterfaceProperties */
+        if (property_exists($stmt, 'else') && $stmt->else instanceof Node) {
+            /** @psalm-suppress NoInterfaceProperties */
             $stmt->else = self::checkStmt($stmt->else, $functionName);
         }
 
-        if ($stmt instanceof Node\Expr\FuncCall && $stmt->name->toString() === $functionName) {
-            $stmt->name = new Node  \Name('\React\Stream\\' . $stmt->name->toString());
+        if ($stmt instanceof Node\Expr\FuncCall && method_exists($stmt->name, 'toString') && $stmt->name->toString() === $functionName) {
+            $stmt->name = new Node\Name('\React\Stream\\' . $stmt->name->toString());
         }
 
         return $stmt;

@@ -1,0 +1,59 @@
+{
+    "timeout": 120,
+    "source": {
+        "directories": [
+            "src"
+        ]
+    },
+    "logs": {
+        "text": "infection-log.txt"
+    },
+    "mutators": {
+        "@default": true,
+        "FunctionCallRemoval": {
+            "ignore": [
+                "ReactInspector\\*"
+            ]
+        },
+        "Assignment": {
+            "ignore": [
+                "ReactInspector\\*"
+            ]
+        },
+        "Identical": {
+            "ignore": [
+                "ReactInspector\\*"
+            ]
+        },
+        "ArrayItemRemoval": {
+            "ignore": [
+                "ReactInspector\\*"
+            ]
+        },
+        "LogicalAnd": {
+            "ignore": [
+                "ReactInspector\\*"
+            ]
+        },
+        "Yield_": {
+            "ignore": [
+                "ReactInspector\\*"
+            ]
+        },
+        "Foreach_": {
+            "ignore": [
+                "ReactInspector\\*"
+            ]
+        },
+        "PublicVisibility": {
+            "ignore": [
+                "ReactInspector\\*"
+            ]
+        },
+        "MethodCallRemoval": {
+            "ignore": [
+                "ReactInspector\\*"
+            ]
+        }
+    }
+}

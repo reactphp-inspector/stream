@@ -3,31 +3,49 @@
 namespace React\Stream;
 
 use ReactInspector\Stream\Bridge;
+use function strlen;
 
-function fread($handle, $length)
+/**
+ * @param resource $handle
+ *
+ * @return string|false
+ */
+function fread($handle, int $length)
 {
     $data = \fread($handle, $length);
-    Bridge::incr('read', (float)\strlen($data));
+    Bridge::incr('read', (float) strlen($data));
 
     return $data;
 }
 
-function fwrite($handle, $data, $length = null)
+/**
+ * @param resource $handle
+ * @param ?int     $length
+ *
+ * @return int|false
+ */
+function fwrite($handle, string $data, ?int $length = null)
 {
     if ($length === null) {
         $writtenLength = \fwrite($handle, $data);
     } else {
         $writtenLength = \fwrite($handle, $data, $length);
     }
-    Bridge::incr('write', (float)$writtenLength);
+
+    Bridge::incr('write', (float) $writtenLength);
 
     return $writtenLength;
 }
 
-function stream_get_contents($handle, $length)
+/**
+ * @param resource $handle
+ *
+ * @return string|false
+ */
+function stream_get_contents($handle, int $length)
 {
     $data = \stream_get_contents($handle, $length);
-    Bridge::incr('read', (float)\strlen($data));
+    Bridge::incr('read', (float) strlen($data));
 
     return $data;
 }
