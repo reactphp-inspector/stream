@@ -654,16 +654,16 @@
         },
         {
             "name": "roave/better-reflection",
-            "version": "4.1.0",
+            "version": "4.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/BetterReflection.git",
-                "reference": "cf9ff245f41c9e8d744af56ae301ba514dbee92b"
+                "reference": "23860f199a155b34967420ea45a0cc5ba078c240"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/BetterReflection/zipball/cf9ff245f41c9e8d744af56ae301ba514dbee92b",
-                "reference": "cf9ff245f41c9e8d744af56ae301ba514dbee92b",
+                "url": "https://api.github.com/repos/Roave/BetterReflection/zipball/23860f199a155b34967420ea45a0cc5ba078c240",
+                "reference": "23860f199a155b34967420ea45a0cc5ba078c240",
                 "shasum": ""
             },
             "require": {
@@ -682,7 +682,7 @@
                 "doctrine/coding-standard": "^7.0.2",
                 "phpstan/phpstan": "^0.12.19",
                 "phpunit/phpunit": "^8.5.4",
-                "vimeo/psalm": "3.10.1"
+                "vimeo/psalm": "3.11.2"
             },
             "suggest": {
                 "composer/composer": "Required to use the ComposerSourceLocator"
@@ -725,7 +725,7 @@
                 }
             ],
             "description": "Better Reflection - an improved code reflection API",
-            "time": "2020-05-06T17:39:39+00:00"
+            "time": "2020-05-07T16:35:54+00:00"
         },
         {
             "name": "roave/signature",
