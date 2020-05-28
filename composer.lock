@@ -654,16 +654,16 @@
         },
         {
             "name": "roave/better-reflection",
-            "version": "4.2.0",
+            "version": "4.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/BetterReflection.git",
-                "reference": "23860f199a155b34967420ea45a0cc5ba078c240"
+                "reference": "aa017e698b47feed410721f3d20e2bacfcba59d5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/BetterReflection/zipball/23860f199a155b34967420ea45a0cc5ba078c240",
-                "reference": "23860f199a155b34967420ea45a0cc5ba078c240",
+                "url": "https://api.github.com/repos/Roave/BetterReflection/zipball/aa017e698b47feed410721f3d20e2bacfcba59d5",
+                "reference": "aa017e698b47feed410721f3d20e2bacfcba59d5",
                 "shasum": ""
             },
             "require": {
@@ -675,12 +675,9 @@
                 "phpdocumentor/type-resolver": "^1.1.0",
                 "roave/signature": "^1.0"
             },
-            "conflict": {
-                "slevomat/coding-standard": "<6.0.7"
-            },
             "require-dev": {
                 "doctrine/coding-standard": "^7.0.2",
-                "phpstan/phpstan": "^0.12.19",
+                "phpstan/phpstan": "^0.12.25",
                 "phpunit/phpunit": "^8.5.4",
                 "vimeo/psalm": "3.11.2"
             },
@@ -725,7 +722,7 @@
                 }
             ],
             "description": "Better Reflection - an improved code reflection API",
-            "time": "2020-05-07T16:35:54+00:00"
+            "time": "2020-05-28T14:10:32+00:00"
         },
         {
             "name": "roave/signature",
@@ -762,16 +759,16 @@
         },
         {
             "name": "symfony/polyfill-ctype",
-            "version": "v1.15.0",
+            "version": "v1.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-ctype.git",
-                "reference": "4719fa9c18b0464d399f1a63bf624b42b6fa8d14"
+                "reference": "e94c8b1bbe2bc77507a1056cdb06451c75b427f9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/4719fa9c18b0464d399f1a63bf624b42b6fa8d14",
-                "reference": "4719fa9c18b0464d399f1a63bf624b42b6fa8d14",
+                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/e94c8b1bbe2bc77507a1056cdb06451c75b427f9",
+                "reference": "e94c8b1bbe2bc77507a1056cdb06451c75b427f9",
                 "shasum": ""
             },
             "require": {
@@ -783,7 +780,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.15-dev"
+                    "dev-master": "1.17-dev"
                 }
             },
             "autoload": {
@@ -816,7 +813,7 @@
                 "polyfill",
                 "portable"
             ],
-            "time": "2020-02-27T09:26:54+00:00"
+            "time": "2020-05-12T16:14:59+00:00"
         },
         {
             "name": "thecodingmachine/safe",
