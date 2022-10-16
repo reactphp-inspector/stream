@@ -1,55 +1,65 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ReactInspector\Tests\Stream;
 
 use PHPUnit\Framework\TestCase;
 use React\Stream;
 use ReactInspector\Stream\Bridge;
+use WyriHaximus\Metrics\Configuration;
+use WyriHaximus\Metrics\InMemory\Registry;
+use WyriHaximus\Metrics\Printer\Prometheus;
+
+use function fclose;
 use function fopen;
 use function fwrite;
-use function Safe\fclose;
-use function Safe\rewind;
+use function rewind;
 
-/**
- * @internal
- */
+/** @internal */
 final class FunctionsTest extends TestCase
 {
-    public function testFread(): void
+    /** @test */
+    public function fread(): void
     {
-        Bridge::clear();
-        $handle = fopen('php://memory', 'a+');
-        fwrite($handle, 'abc', 3);
-        self::assertSame(0.0, Bridge::get()['read']);
-        Stream\fread($handle, 3);
-        self::assertSame(0.0, Bridge::get()['read']);
-        rewind($handle);
-        Stream\fread($handle, 3);
-        self::assertSame(3.0, Bridge::get()['read']);
-        fclose($handle);
+        $registry = new Registry(Configuration::create());
+        Bridge::setRegistry($registry);
+        $handle = fopen('php://memory', 'a+'); /** @phpstan-ignore-line */
+        fwrite($handle, 'abc', 3); /** @phpstan-ignore-line */
+        self::assertStringContainsString('reactphp_io_total{kind="read"} 0', $registry->print(new Prometheus()));
+        Stream\fread($handle, 3); /** @phpstan-ignore-line */
+        self::assertStringContainsString('reactphp_io_total{kind="read"} 0', $registry->print(new Prometheus()));
+        rewind($handle); /** @phpstan-ignore-line */
+        Stream\fread($handle, 3); /** @phpstan-ignore-line */
+        self::assertStringContainsString('reactphp_io_total{kind="read"} 3', $registry->print(new Prometheus()));
+        fclose($handle); /** @phpstan-ignore-line */
     }
 
-    public function testStreamGetContents(): void
+    public function streamGetContents(): void
     {
-        Bridge::clear();
-        $handle = fopen('php://memory', 'a+');
-        fwrite($handle, 'abc', 3);
-        self::assertSame(0.0, Bridge::get()['read']);
-        Stream\stream_get_contents($handle, 3);
-        self::assertSame(0.0, Bridge::get()['read']);
-        rewind($handle);
-        Stream\stream_get_contents($handle, 3);
-        self::assertSame(3.0, Bridge::get()['read']);
-        fclose($handle);
+        /** @test */
+        $registry = new Registry(Configuration::create());
+        Bridge::setRegistry($registry);
+        $handle = fopen('php://memory', 'a+'); /** @phpstan-ignore-line */
+        fwrite($handle, 'abc', 3); /** @phpstan-ignore-line */
+        self::assertStringContainsString('reactphp_io_total{kind="read"} 0', $registry->print(new Prometheus()));
+        Stream\stream_get_contents($handle, 3); /** @phpstan-ignore-line */
+        self::assertStringContainsString('reactphp_io_total{kind="read"} 0', $registry->print(new Prometheus()));
+        rewind($handle); /** @phpstan-ignore-line */
+        Stream\stream_get_contents($handle, 3); /** @phpstan-ignore-line */
+        self::assertStringContainsString('reactphp_io_total{kind="read"} 3', $registry->print(new Prometheus()));
+        fclose($handle); /** @phpstan-ignore-line */
     }
 
-    public function testFwrite(): void
+    /** @test */
+    public function fwrite(): void
     {
-        Bridge::clear();
-        $handle = fopen('php://memory', 'a+');
-        self::assertSame(0.0, Bridge::get()['write']);
-        Stream\fwrite($handle, 'abc', 3);
-        self::assertSame(3.0, Bridge::get()['write']);
-        fclose($handle);
+        $registry = new Registry(Configuration::create());
+        Bridge::setRegistry($registry);
+        $handle = fopen('php://memory', 'a+'); /** @phpstan-ignore-line */
+        self::assertStringContainsString('reactphp_io_total{kind="write"} 0', $registry->print(new Prometheus()));
+        Stream\fwrite($handle, 'abc', 3); /** @phpstan-ignore-line */
+        self::assertStringContainsString('reactphp_io_total{kind="write"} 3', $registry->print(new Prometheus()));
+        fclose($handle); /** @phpstan-ignore-line */
     }
 }

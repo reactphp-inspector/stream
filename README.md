@@ -3,9 +3,7 @@
 [![Linux Build Status](https://travis-ci.org/WyriHaximus/reactphp-event-loop-inspector-f42.png)](https://travis-ci.org/WyriHaximus/reactphp-event-loop-inspector-f42)
 [![Latest Stable Version](https://poser.pugx.org/WyriHaximus/react-event-loop-inspector-f42/v/stable.png)](https://packagist.org/packages/WyriHaximus/react-event-loop-inspector-f42)
 [![Total Downloads](https://poser.pugx.org/WyriHaximus/react-event-loop-inspector-f42/downloads.png)](https://packagist.org/packages/WyriHaximus/react-event-loop-inspector-f42)
-[![Code Coverage](https://scrutinizer-ci.com/g/WyriHaximus/reactphp-event-loop-inspector-f42/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/WyriHaximus/reactphp-event-loop-inspector-f42/?branch=master)
 [![License](https://poser.pugx.org/WyriHaximus/react-event-loop-inspector-f42/license.png)](https://packagist.org/packages/wyrihaximus/react-event-loop-inspector-f42)
-[![PHP 7 ready](http://php7ready.timesplinter.ch/WyriHaximus/reactphp-event-loop-inspector-f42/badge.svg)](https://travis-ci.org/WyriHaximus/reactphp-event-loop-inspector-f42)
 
 
 # DO NOT USE THIS IN PRODUCTION UNLESS YOU HAVE A GOOD REASON TO!
@@ -17,7 +15,7 @@ It will hook into all fread and fwrite calls ReactPHP makes and cause overhead o
 To install via [Composer](http://getcomposer.org/), use the command below, it will automatically detect the latest version and bind it with `^`.
 
 ```
-composer require wyrihaximus/react-event-loop-inspector-f42 
+composer require wyrihaximus/react-event-loop-inspector-f42
 ```
 
 ## Contributing ##

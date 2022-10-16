@@ -1,51 +1,47 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace React\Stream;
 
 use ReactInspector\Stream\Bridge;
+
+use function is_string;
 use function strlen;
 
-/**
- * @param resource $handle
- *
- * @return string|false
- */
-function fread($handle, int $length)
+/** @param resource $handle */
+function fread($handle, int $length): string|false
 {
-    $data = \fread($handle, $length);
-    Bridge::incr('read', (float) strlen($data));
+    $data = \fread($handle, $length); /** @phpstan-ignore-line */
+    /** @psalm-suppress InternalMethod */
+    Bridge::read(strlen($data)); /** @phpstan-ignore-line */
 
     return $data;
 }
 
-/**
- * @param resource $handle
- * @param ?int     $length
- *
- * @return int|false
- */
-function fwrite($handle, string $data, ?int $length = null)
+/** @param resource $handle */
+function fwrite($handle, string $data, int|null $length = null): int|false /** @phpstan-ignore-line */
 {
     if ($length === null) {
         $writtenLength = \fwrite($handle, $data);
     } else {
-        $writtenLength = \fwrite($handle, $data, $length);
+        $writtenLength = \fwrite($handle, $data, $length); /** @phpstan-ignore-line */
     }
 
-    Bridge::incr('write', (float) $writtenLength);
+    /** @psalm-suppress InternalMethod */
+    Bridge::write((int) $writtenLength);
 
     return $writtenLength;
 }
 
-/**
- * @param resource $handle
- *
- * @return string|false
- */
-function stream_get_contents($handle, int $length)
+/** @param resource $handle */
+function stream_get_contents($handle, int $length): string|false
 {
     $data = \stream_get_contents($handle, $length);
-    Bridge::incr('read', (float) strlen($data));
+    if (is_string($data)) {
+        /** @psalm-suppress InternalMethod */
+        Bridge::read(strlen($data));
+    }
 
     return $data;
 }

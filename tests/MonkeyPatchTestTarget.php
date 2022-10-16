@@ -1,10 +1,13 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ReactInspector\Tests\Stream;
 
 use function fread;
 use function fwrite;
 use function stream_get_contents;
+
 use const STDIN;
 use const STDOUT;
 
