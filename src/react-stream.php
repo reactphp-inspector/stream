@@ -13,7 +13,7 @@ use function strlen;
 function fread($handle, int $length)
 {
     $data = \fread($handle, $length);
-    Bridge::incr('read', (float) strlen($data));
+    Bridge::read((int) strlen($data));
 
     return $data;
 }
@@ -32,7 +32,7 @@ function fwrite($handle, string $data, ?int $length = null)
         $writtenLength = \fwrite($handle, $data, $length);
     }
 
-    Bridge::incr('write', (float) $writtenLength);
+    Bridge::write((int) $writtenLength);
 
     return $writtenLength;
 }
@@ -45,7 +45,7 @@ function fwrite($handle, string $data, ?int $length = null)
 function stream_get_contents($handle, int $length)
 {
     $data = \stream_get_contents($handle, $length);
-    Bridge::incr('read', (float) strlen($data));
+    Bridge::read((int) strlen($data));
 
     return $data;
 }

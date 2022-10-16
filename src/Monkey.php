@@ -16,23 +16,15 @@ final class Monkey
 {
     public static function patch(string $class): ReflectionClass
     {
-        $classReflection = (new BetterReflection())->classReflector()->reflect($class);
-        foreach ($classReflection->getMethods() as $method) {
-            self::reroute($method, 'fread');
-            self::reroute($method, 'fwrite');
-            self::reroute($method, 'stream_get_contents');
-        }
+        $reflector = (new BetterReflection())->reflector();
+        $classReflection = $reflector->reflectClass($class);
 
-        return $classReflection;
-    }
-
-    private static function reroute(ReflectionMethod $method, string $functionName): void
-    {
-        if (strpos($method->getBodyCode(), $functionName) === FALSE_) {
-            return;
-        }
-
-        $method->setBodyFromAst(iteratorOrArrayToArray(self::iterateAst($method->getBodyAst(), $functionName)));
+        return ReflectionClass::createFromNode(
+            $reflector,
+            self::checkStmt($classReflection->getAst()),
+            $classReflection->getLocatedSource(),
+            $classReflection->getDeclaringNamespaceAst(),
+        );
     }
 
     /**
@@ -40,34 +32,36 @@ final class Monkey
      *
      * @return iterable<string, Node>
      */
-    private static function iterateAst(iterable $ast, string $functionName): iterable
+    private static function iterateAst(iterable $ast): iterable
     {
         foreach ($ast as $key => $stmt) {
-            yield $key => self::checkStmt($stmt, $functionName);
+            yield $key => self::checkStmt($stmt);
         }
     }
 
-    private static function checkStmt(Node $stmt, string $functionName): Node
+    private static function checkStmt(Node $stmt): Node
     {
         if (property_exists($stmt, 'stmts')) {
             /** @psalm-suppress NoInterfaceProperties */
-            $stmt->stmts = iteratorOrArrayToArray(self::iterateAst($stmt->stmts, $functionName));
+            $stmt->stmts = iteratorOrArrayToArray(self::iterateAst($stmt->stmts));
         }
 
         /** @psalm-suppress NoInterfaceProperties */
         if (property_exists($stmt, 'expr') && $stmt->expr instanceof Node) {
             /** @psalm-suppress NoInterfaceProperties */
-            $stmt->expr = self::checkStmt($stmt->expr, $functionName);
+            $stmt->expr = self::checkStmt($stmt->expr);
         }
 
         /** @psalm-suppress NoInterfaceProperties */
         if (property_exists($stmt, 'else') && $stmt->else instanceof Node) {
             /** @psalm-suppress NoInterfaceProperties */
-            $stmt->else = self::checkStmt($stmt->else, $functionName);
+            $stmt->else = self::checkStmt($stmt->else);
         }
 
-        if ($stmt instanceof Node\Expr\FuncCall && method_exists($stmt->name, 'toString') && $stmt->name->toString() === $functionName) {
-            $stmt->name = new Node\Name('\React\Stream\\' . $stmt->name->toString());
+        foreach (['fread', 'fwrite', 'stream_get_contents'] as $functionName) {
+            if ($stmt instanceof Node\Expr\FuncCall && method_exists($stmt->name, 'toString') && $stmt->name->toString() === $functionName) {
+                $stmt->name = new Node\Name('\React\Stream\\' . $stmt->name->toString());
+            }
         }
 
         return $stmt;

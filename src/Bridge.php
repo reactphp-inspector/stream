@@ -2,41 +2,38 @@
 
 namespace ReactInspector\Stream;
 
+use ReactInspector\GlobalState;
+use WyriHaximus\Metrics\Label;
+use WyriHaximus\Metrics\Label\Name;
+use WyriHaximus\Metrics\LazyRegistry\Registry as LazyRegistry;
+use WyriHaximus\Metrics\Registry;
 use function array_key_exists;
 use const WyriHaximus\Constants\Numeric\ONE_FLOAT;
 use const WyriHaximus\Constants\Numeric\ZERO_FLOAT;
+use WyriHaximus\Metrics\Counter;
 
+/**
+ * @internal
+ */
 final class Bridge
 {
-    /** @var array<string, float> */
-    private static array $state = [
-        'read' => ZERO_FLOAT,
-        'write' => ZERO_FLOAT,
-    ];
+    private static Counter $read;
+    private static Counter $write;
 
-    /**
-     * @internal
-     */
-    public static function clear(): void
+    public static function read(int $value): void
     {
-        self::$state = [
-            'read' => ZERO_FLOAT,
-            'write' => ZERO_FLOAT,
-        ];
+        self::$read->incrBy($value);
     }
 
-    /** @return array<string, float> */
-    public static function get(): array
+    public static function write(int $value): void
     {
-        return self::$state;
+        self::$write->incrBy($value);
     }
 
-    public static function incr(string $key, float $value = ONE_FLOAT): void
+    public static function setRegistry(\WyriHaximus\Metrics\Registry $registry)
     {
-        if (! array_key_exists($key, self::$state)) {
-            return;
-        }
-
-        self::$state[$key] += $value;
+        $counters = $registry->counter('reactphp_io', 'ReactPHP Stream IO Bytes counter', new Name('kind'));
+        self::$read = $counters->counter(new Label('kind', 'read'));
+        self::$write = $counters->counter(new Label('kind', 'write'));
     }
 }
