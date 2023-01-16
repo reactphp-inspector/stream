@@ -9,7 +9,7 @@
         }
     ],
     "require": {
-        "php": "^7.4",
+        "php": "^8.0",
         "nikic/php-parser": "^4.3",
         "react-inspector/metric": "^1.0",
         "react-inspector/metrics": "^1.0",
