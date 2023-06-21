@@ -21,7 +21,7 @@
         "wyrihaximus/iterator-or-array-to-array": "^1.1"
     },
     "require-dev": {
-        "wyrihaximus/async-test-utilities": "^2.1"
+        "wyrihaximus/async-test-utilities": "^7.0"
     },
     "config": {
         "platform": {
