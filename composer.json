@@ -19,7 +19,7 @@
         "wyrihaximus/metrics-lazy-registry": "^2"
     },
     "require-dev": {
-        "wyrihaximus/async-test-utilities": "^8"
+        "wyrihaximus/async-test-utilities": "^8 || ^9"
     },
     "autoload": {
         "psr-4": {
