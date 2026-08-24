@@ -15,7 +15,7 @@
         "react/event-loop": "^1.5",
         "react/stream": "^1.4",
         "roave/better-reflection": "^6.26",
-        "wyrihaximus/metrics": "^2.1",
+        "wyrihaximus/metrics": "^2.1 || ^3.0",
         "wyrihaximus/metrics-lazy-registry": "^2"
     },
     "require-dev": {
