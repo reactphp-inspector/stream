@@ -10,7 +10,7 @@
     ],
     "require": {
         "php": "^8.2",
-        "nikic/php-parser": "^4.19",
+        "nikic/php-parser": "^4.19 || ^5.0",
         "react-inspector/global-state": "^1",
         "react/event-loop": "^1.5",
         "react/stream": "^1.4",
